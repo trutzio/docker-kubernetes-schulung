@@ -1,0 +1,23 @@
+# Walkthrough: Journey-Moment: der komplette Petclinic-Stack
+services:
+  petclinic:
+    image: petclinic:local
+    ports:
+      - "8080:8080"
+    depends_on:
+      - petclinic-db
+    environment:
+      SPRING_PROFILES_ACTIVE: postgres
+      POSTGRES_URL: jdbc:postgresql://petclinic-db/petclinic
+      POSTGRES_USER: petclinic
+      POSTGRES_PASS: petclinic
+  petclinic-db:
+    image: postgres:17
+    volumes:
+      - petclinic-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: petclinic
+      POSTGRES_USER: petclinic
+      POSTGRES_PASSWORD: petclinic
+volumes:
+  petclinic-data: {}

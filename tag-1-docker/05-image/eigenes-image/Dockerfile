@@ -1,0 +1,3 @@
+FROM postgres:17
+ENV POSTGRES_USER=testuser
+ENV POSTGRES_DB=testdb

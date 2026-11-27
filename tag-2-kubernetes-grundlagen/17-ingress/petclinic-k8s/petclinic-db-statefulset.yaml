@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: petclinic-db
+  labels:
+    app: petclinic-db
+spec:
+  serviceName: petclinic-db
+  replicas: 1
+  selector:
+    matchLabels:
+      app: petclinic-db
+  template:
+    metadata:
+      labels:
+        app: petclinic-db
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:17
+          ports:
+            - containerPort: 5432
+          envFrom:
+            - configMapRef:
+                name: petclinic-config
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: petclinic-secret
+                  key: password
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/postgresql/data
+          readinessProbe:
+            exec:
+              command: ["pg_isready", "-U", "petclinic"]
+            periodSeconds: 5
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi

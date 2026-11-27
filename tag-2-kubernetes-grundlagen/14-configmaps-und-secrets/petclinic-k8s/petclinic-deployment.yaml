@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: petclinic
+  labels:
+    app: petclinic
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: petclinic
+  template:
+    metadata:
+      labels:
+        app: petclinic
+    spec:
+      containers:
+        - name: petclinic
+          image: petclinic:local
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: petclinic-config
+          env:
+            - name: POSTGRES_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: petclinic-secret
+                  key: password

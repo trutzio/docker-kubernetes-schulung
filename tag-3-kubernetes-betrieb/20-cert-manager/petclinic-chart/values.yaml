@@ -1,0 +1,9 @@
+replicaCount: 3
+image:
+  repository: petclinic
+  tag: local
+ingress:
+  host: petclinic.localhost
+database:
+  password: petclinic
+  storage: 1Gi

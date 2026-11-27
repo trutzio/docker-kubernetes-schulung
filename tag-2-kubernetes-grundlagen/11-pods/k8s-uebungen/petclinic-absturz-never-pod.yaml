@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: petclinic-absturz
+spec:
+  restartPolicy: Never
+  containers:
+    - name: petclinic
+      image: petclinic:local
+      env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: postgres
