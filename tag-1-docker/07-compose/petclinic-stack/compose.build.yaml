@@ -1,0 +1,26 @@
+# Lösung 7.3: Compose baut das Petclinic-Image bei Bedarf selbst
+# build: zeigt auf das geklonte Repository mit der Dockerfile aus dem Image-Kapitel
+# (tag-1-docker/spring-petclinic; im Kapiteltext liegt es direkt neben petclinic-stack: ../spring-petclinic)
+services:
+  petclinic:
+    build: ../../spring-petclinic
+    image: petclinic:local
+    ports:
+      - "8080:8080"
+    depends_on:
+      - petclinic-db
+    environment:
+      SPRING_PROFILES_ACTIVE: postgres
+      POSTGRES_URL: jdbc:postgresql://petclinic-db/petclinic
+      POSTGRES_USER: petclinic
+      POSTGRES_PASS: petclinic
+  petclinic-db:
+    image: postgres:17
+    volumes:
+      - petclinic-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: petclinic
+      POSTGRES_USER: petclinic
+      POSTGRES_PASSWORD: petclinic
+volumes:
+  petclinic-data: {}

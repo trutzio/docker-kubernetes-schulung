@@ -1,0 +1,5 @@
+# Von den Skripten und Werkzeugen erzeugte Dateien
+*.tgz
+kurs-ca.crt
+/22-opentofu/tofu-demo/.terraform/
+/22-opentofu/tofu-demo/terraform.tfstate*

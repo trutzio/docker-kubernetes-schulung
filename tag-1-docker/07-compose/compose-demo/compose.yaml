@@ -1,0 +1,14 @@
+# Walkthrough: Compose installieren und der erste Service
+services:
+  database:
+    image: postgres:17
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_volume:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+volumes:
+  postgres_volume: {}

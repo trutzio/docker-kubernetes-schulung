@@ -1,0 +1,29 @@
+# Walkthrough: Compose-Profile (pgAdmin gehört zum Profil admin)
+services:
+  database:
+    image: postgres:17
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_volume:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+  dbadmin:
+    image: dpage/pgadmin4:8
+    profiles:
+      - admin
+    ports:
+      - "8080:8080"
+    depends_on:
+      - database
+    volumes:
+      - pgadmin_volume:/var/lib/pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: postgres@test.de
+      PGADMIN_DEFAULT_PASSWORD: password
+      PGADMIN_LISTEN_PORT: 8080
+volumes:
+  postgres_volume: {}
+  pgadmin_volume: {}
